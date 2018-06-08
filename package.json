@@ -2,7 +2,7 @@
   "name": "mizukimusic",
   "version": "0.0.1",
   "main": "mizukimusic.js",
-  "description": "DESTINY BOT MUSIC PART.",
+  "description": "MIZUKI BOT MUSIC PART.",
   "scripts": {
     "start": "node mizukimusic.js"
   },
