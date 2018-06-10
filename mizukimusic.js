@@ -42,7 +42,7 @@ bot.on('message', async msg => { // eslint-disable-line
     commandcooldown.add(message.author.id);
     setTimeout(() => {
         commandcooldown.delete(message.author.id);
-    }, 3000); //3000 ms = 3 detik\
+    }, 2000); //2000 ms = 2 detik\
  
     if (msg.author.bot) return undefined;
     if (!msg.content.startsWith(PREFIX)) return undefined;
@@ -345,7 +345,8 @@ async function handleVideo(video, msg, voiceChannel, playlist = false) {
         });
         }
     } else {
-      var index = 1;
+      var index = 0;
+      index++;
       var queueembed = new Discord.RichEmbed()
       .setColor("RANDOM")
       .setAuthor(`Added to queue`, `https://images-ext-1.discordapp.net/external/YwuJ9J-4k1AUUv7bj8OMqVQNz1XrJncu4j8q-o7Cw5M/http/icons.iconarchive.com/icons/dakirby309/simply-styled/256/YouTube-icon.png`)
