@@ -261,7 +261,7 @@ ${videos.map(video2 => `**${++index} -** ${video2.title}`).join('\n')}
                 color: randomhexcolor,
                 description: `__**Songs in the queue list:**__
  
-${serverQueue.songs.map(song => `**${index++}** ${song.title}`).join('\n')}`
+${serverQueue.songs.map(song => `**${index++}.** ${song.title}`).join('\n')}`
             }
         });
     } else if (command === 'pause') {
@@ -346,7 +346,7 @@ async function handleVideo(video, msg, voiceChannel, playlist = false) {
         });
         }
     } else {
-      var index = 0;
+      let index = 0;
       index++;
       var queueembed = new Discord.RichEmbed()
       .setColor("RANDOM")
