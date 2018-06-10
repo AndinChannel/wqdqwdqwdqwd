@@ -249,6 +249,7 @@ ${videos.map(video2 => `**${++index} -** ${video2.title}`).join('\n')}
             }
         })
     } else if (command === 'queue') {
+        var index = 0;
         if (!serverQueue) return msg.channel.send({
             embed: {
                 color: randomhexcolor,
@@ -260,7 +261,7 @@ ${videos.map(video2 => `**${++index} -** ${video2.title}`).join('\n')}
                 color: randomhexcolor,
                 description: `__**Songs in the queue list:**__
  
-${serverQueue.songs.map(song => `**-** ${song.title}`).join('\n')}`
+${serverQueue.songs.map(song => `**${index++}** ${song.title}`).join('\n')}`
             }
         });
     } else if (command === 'pause') {
@@ -356,7 +357,7 @@ async function handleVideo(video, msg, voiceChannel, playlist = false) {
       .addField("Uploaded by", `[${song.uploadedby}](${song.channelurl})`, true)
       .addField("Duration", `${song.durationm}min ${song.durations}sec`, true)
       .addField("Request by", `${song.request}`, true)
-      .addField("Position in queue", `${index++}`, true)
+      .addField("Position in queue", `${index}`, true)
       .setFooter(`If this bot does not sound, you have to exit and log back in.`)
       .setTimestamp();
         serverQueue.songs.push(song);
