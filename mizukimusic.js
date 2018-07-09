@@ -364,7 +364,7 @@ function play(guild, song) {
   .addField('Title', `__[${song.title}](${song.url})__`, true)
   .addField('Video ID', `${song.id}`, true)
   .addField("Uploaded by", `[${song.uploadedby}](${song.channelurl})`, true)
-  .addField("Duration", `${song.durationm}mins ${song.durations}secs` || `${song.durationh}hrs ${song.durationm}mins ${song.durations}secs`, true)
+  .addField("Duration", `${song.durationh}hrs ${song.durationm}mins ${song.durations}secs`, true)
   .addField("Request by", `${song.request}`, true)
   .addField("Voice Channel", `${song.channels}`, true)
   .addField("Volume", `${serverQueue.volume}%`, true)
