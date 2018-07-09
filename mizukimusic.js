@@ -111,14 +111,14 @@ bot.on('message', async msg => { // eslint-disable-line
             embed: {
                 description: `__**🔽 Please select your song below:**__
 ${videos.map(video2 => `**${++index} -** ${video2.title}`).join('\n')}
-**Type in the number listed above, you have a 20 seconds before it get automatically canceled!**`
+**Type in the number listed above, you have a 30 seconds before it get automatically canceled!**`
             }
         })
  
                     try {
                         var response = await msg.channel.awaitMessages(msg2 => msg2.content > 0 && msg2.content < 11, {
                             maxMatches: 1,
-                            time: 20000,
+                            time: 30000,
                             errors: ['time']
                         });
                                                 selection.delete();
@@ -318,8 +318,6 @@ async function handleVideo(video, msg, voiceChannel, playlist = false) {
         });
         }
     } else {
-      let index = 0;
-      index++;
       var queueembed = new Discord.RichEmbed()
       .setAuthor(`Added to queue`, `https://images-ext-1.discordapp.net/external/YwuJ9J-4k1AUUv7bj8OMqVQNz1XrJncu4j8q-o7Cw5M/http/icons.iconarchive.com/icons/dakirby309/simply-styled/256/YouTube-icon.png`)
       .setThumbnail(`https://i.ytimg.com/vi/${song.id}/default.jpg?width=80&height=60`)
@@ -328,6 +326,7 @@ async function handleVideo(video, msg, voiceChannel, playlist = false) {
       .addField("Uploaded by", `[${song.uploadedby}](${song.channelurl})`, true)
       .addField("Duration", `${song.durationm}min ${song.durations}sec`, true)
       .addField("Request by", `${song.request}`, true)
+      .addField("In Queue Position", `${++index}`, true)
       .setFooter(`If this bot does not sound, you have to exit and log back in.`)
       .setTimestamp();
         serverQueue.songs.push(song);
