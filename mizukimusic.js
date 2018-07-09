@@ -3,6 +3,7 @@ const superagent = require("superagent");
 const YouTube = require("simple-youtube-api");
 const ytdl = require("ytdl-core");
 const opus = require("opusscript");
+const moment = require("moment");
  
 const prefix = 'm!';
 var commandcooldown = new Set();
@@ -363,7 +364,7 @@ function play(guild, song) {
   .addField('Title', `__[${song.title}](${song.url})__`, true)
   .addField('Video ID', `${song.id}`, true)
   .addField("Uploaded by", `[${song.uploadedby}](${song.channelurl})`, true)
-  .addField("Duration", `${song.durationm}min ${song.durations}sec`, true)
+  .addField("Duration", `${song.durationm}mins ${song.durations}secs` || `${song.durationh}hrs ${song.durationm}mins ${song.durations}secs`, true)
   .addField("Request by", `${song.request}`, true)
   .addField("Voice Channel", `${song.channels}`, true)
   .addField("Volume", `${serverQueue.volume}%`, true)
