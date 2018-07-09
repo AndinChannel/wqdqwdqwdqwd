@@ -63,13 +63,11 @@ bot.on('message', async msg => { // eslint-disable-line
     if (command === 'play' || command === 'p') {
         var searchString = args.slice(1).join(" ");
         if(!searchString) return msg.channel.send({embed: {
-          color: randomhexcolor,
           description: `❌ Please usage: \`${PREFIX}play <Song name | URL | Playlist URL>\``
         }})
         const voiceChannel = msg.member.voiceChannel;
         if (!voiceChannel) return msg.channel.send({
             embed: {
-                color: randomhexcolor,
                 description: `${msg.author} You are not on the voice channel, you need to be in a voice channel to play some music!.`
             }
         })
@@ -77,7 +75,6 @@ bot.on('message', async msg => { // eslint-disable-line
         if (!permissions.has('CONNECT')) {
               msg.channel.send({
             embed: {
-                color: randomhexcolor,
                 description: `Sorry, cannot connect to your voice channel, make sure I have the permissions!`
             }
         })
@@ -85,7 +82,6 @@ bot.on('message', async msg => { // eslint-disable-line
         if (!permissions.has('SPEAK')) {
             return msg.channel.send({
             embed: {
-                color: randomhexcolor,
                 description: `I cannot speak in this voice channel, make sure I have the permissions!`
             }
         })
@@ -100,7 +96,6 @@ bot.on('message', async msg => { // eslint-disable-line
             }
             return msg.channel.send({
             embed: {
-                color: randomhexcolor,
                 description: `${playlist.title} has been added to the queue!`
             }
         })
@@ -109,13 +104,38 @@ bot.on('message', async msg => { // eslint-disable-line
                 var video = await youtube.getVideo(url);
             } catch (error) {
                 try {
-                    var videos = await youtube.searchVideos(searchString, 1);
-                    var video = await youtube.getVideoByID(videos.id);
+                    var videos = await youtube.searchVideos(searchString, 10);
+                    let index = 0;
+                    var selection = await msg.channel.send({
+            embed: {
+                description: `__**🔽 Please select your song below:**__
+${videos.map(video2 => `**${++index} -** ${video2.title}`).join('\n')}
+**Type in the number listed above, you have a 20 seconds before it get automatically canceled!**`
+            }
+        })
+ 
+                    try {
+                        var response = await msg.channel.awaitMessages(msg2 => msg2.content > 0 && msg2.content < 11, {
+                            maxMatches: 1,
+                            time: 20000,
+                            errors: ['time']
+                        });
+                                                selection.delete();
+                    } catch (err) {
+                        console.error(err);
+                        return msg.channel.send({
+            embed: {
+                description: `No or invalid value entered, cancelling video selection.`
+            }
+        })
+                        selection.delete();
+                    }
+                    const videoIndex = parseInt(response.first().content);
+                    var video = await youtube.getVideoByID(videos[videoIndex - 1].id);
                 } catch (err) {
                     console.error(err)
                     return msg.channel.send({
             embed: {
-                color: randomhexcolor,
                 description: `ERR! I could not obtain any search results.`
             }
         })
@@ -126,13 +146,11 @@ bot.on('message', async msg => { // eslint-disable-line
     } else if (command === 'skip') {
         if (!msg.member.voiceChannel) return msg.channel.send({
             embed: {
-                color: randomhexcolor,
                 description: `${msg.author} You are not in a voice channel!`,
             }
         })
         if (!serverQueue) return msg.channel.send({
             embed: {
-                color: randomhexcolor,
                 description: `Hei ${msg.author}, There is nothing playing that I could skip for you.`
             }
         })
@@ -142,23 +160,19 @@ bot.on('message', async msg => { // eslint-disable-line
     let member = msg.member;
         if (!msg.member.voiceChannel) return msg.channel.send({
             embed: {
-                color: randomhexcolor,
                 description: `Hei ${msg.author}, You need to join voice channel.`,
             }
         })
         if (!serverQueue) return msg.channel.send({
             embed: {
-                color: randomhexcolor,
                 description: `Hei ${msg.author}, There is nothing playing that I could stop for you.`
             }
         })
         serverQueue.songs = [];
         serverQueue.connection.dispatcher.end('Stop is already used!');
         return msg.channel.send({embed: {
-          color: randomhexcolor,
           description: `⏹ Music has been stoped!.`,
         }}) + msg.channel.send({embed: {
-          color: randomhexcolor,
           fields: [{
             name: "Support Us",
             value: `Support us by joining to our discord:\n[Click here](${invitelink})`
@@ -168,26 +182,22 @@ bot.on('message', async msg => { // eslint-disable-line
       } else if (command === 'volume') {
           if (!msg.member.voiceChannel) return msg.channel.send({
             embed: {
-                color: randomhexcolor,
                 description: `${msg.author}, You are not in a voice channel!.`
             }
         });
         if (!serverQueue) return msg.channel.send({
             embed: {
-                color: randomhexcolor,
                 description: `There is nothing playing.`
             }
         })
         if (!args[1]) return msg.channel.send({
             embed: {
-                color: randomhexcolor,
                 description: `The current volume is: __**${serverQueue.volume}%**__`
             }
         });
         serverQueue.volume = args[1];
     if (args[1] > 100) return msg.channel.send({
       embed: {
-        color: randomhexcolor,
         description: `${msg.author} Volume limit is 100%, your ear will bleeding!`
       }
     });
@@ -195,7 +205,6 @@ bot.on('message', async msg => { // eslint-disable-line
      if (args[1] > 100) return !serverQueue.connection.dispatcher.setVolumeLogarithmic(args[1] / 100) +
        msg.channel.send({
       embed: {
-        color: randomhexcolor,
         description: `${msg.author} Volume limit is 100%, your ear will bleeding!`
       }
     });
@@ -203,20 +212,17 @@ bot.on('message', async msg => { // eslint-disable-line
      if (args[1] < 101) return serverQueue.connection.dispatcher.setVolumeLogarithmic(args[1] / 100) +
           msg.channel.send({
             embed: {
-                color: randomhexcolor,
                 description: `I set the volume to: __**${args[1]}**%__`
             }
         });
     } else if (command === 'np') {
         if (!serverQueue) return msg.channel.send({
             embed: {
-                color: randomhexcolor,
                 description: `There is nothing playing.`
             }
         })
         return msg.channel.send({
             embed: {
-                color: randomhexcolor,
                 description: `🎶 Now playing: __**${serverQueue.songs[0].title}**__`
             }
         })
@@ -224,13 +230,11 @@ bot.on('message', async msg => { // eslint-disable-line
         var index = 0;
         if (!serverQueue) return msg.channel.send({
             embed: {
-                color: randomhexcolor,
                 description: `There is nothing playing.`
             }
         })
         return msg.channel.send({
             embed: {
-                color: randomhexcolor,
                 description: `__**Songs in the queue list:**__
  
 ${serverQueue.songs.map(song => `**${index++}.** ${song.title}`).join('\n')}`
@@ -242,14 +246,12 @@ ${serverQueue.songs.map(song => `**${index++}.** ${song.title}`).join('\n')}`
             serverQueue.connection.dispatcher.pause();
             return msg.channel.send({
             embed: {
-                color: randomhexcolor,
                 description: `⏸ Music has paused.`
             }
         })
         }
         return msg.channel.send({
             embed: {
-                color: randomhexcolor,
                 description: `There is nothing playing.`
             }
         })
@@ -259,14 +261,12 @@ ${serverQueue.songs.map(song => `**${index++}.** ${song.title}`).join('\n')}`
             serverQueue.connection.dispatcher.resume();
             return msg.channel.send({
             embed: {
-                color: randomhexcolor,
                 description: `⏯ Music has resumed.`
             }
         })
         }
         return msg.channel.send({
             embed: {
-                color: randomhexcolor,
                 description: `There is nothing playing.`
             }
         })
@@ -312,7 +312,6 @@ async function handleVideo(video, msg, voiceChannel, playlist = false) {
             queue.delete(msg.guild.id);
             return msg.channel.send({
             embed: {
-                color: Math.floor(Math.random() * 16777214) + 1,
                 description: `I could not join the voice channel: ${error}.`
             }
         });
@@ -321,7 +320,6 @@ async function handleVideo(video, msg, voiceChannel, playlist = false) {
       let index = 0;
       index++;
       var queueembed = new Discord.RichEmbed()
-      .setColor("RANDOM")
       .setAuthor(`Added to queue`, `https://images-ext-1.discordapp.net/external/YwuJ9J-4k1AUUv7bj8OMqVQNz1XrJncu4j8q-o7Cw5M/http/icons.iconarchive.com/icons/dakirby309/simply-styled/256/YouTube-icon.png`)
       .setThumbnail(`https://i.ytimg.com/vi/${song.id}/default.jpg?width=80&height=60`)
       .addField('Title', `__[${song.title}](${song.url})__`, true)
@@ -360,7 +358,6 @@ function play(guild, song) {
     dispatcher.setVolumeLogarithmic(serverQueue.volume / 100);
  
   let startembed = new Discord.RichEmbed()
-  .setColor("RANDOM")
   .setAuthor(`Start Playing`, `https://images-ext-1.discordapp.net/external/YwuJ9J-4k1AUUv7bj8OMqVQNz1XrJncu4j8q-o7Cw5M/http/icons.iconarchive.com/icons/dakirby309/simply-styled/256/YouTube-icon.png`)
   .setThumbnail(`https://i.ytimg.com/vi/${song.id}/default.jpg?width=80&height=60`)
   .addField('Title', `__[${song.title}](${song.url})__`, true)
