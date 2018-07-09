@@ -60,7 +60,7 @@ bot.on('message', async msg => { // eslint-disable-line
     let command = msg.content.toLowerCase().split(' ')[0];
     command = command.slice(PREFIX.length)
  
-    if (command === 'play') {
+    if (command === 'play' || command === 'p') {
         var searchString = args.slice(1).join(" ");
         if(!searchString) return msg.channel.send({embed: {
           color: randomhexcolor,
@@ -137,7 +137,8 @@ ${videos.map(video2 => `**${++index} -** ${video2.title}`).join('\n')}
         })
                         selection.delete();
                     }
-                    const videoIndex = parseInt(response.first().content);
+                    user = "";
+                    const videoIndex = parseInt(response.first().content && user.id === message.author.id);
                     var video = await youtube.getVideoByID(videos[videoIndex - 1].id);
                 } catch (err) {
                     console.error(err)
