@@ -175,8 +175,8 @@ ${videos.map(video2 => `**${++index} -** ${video2.title}`).join('\n')}
           description: `⏹ Music has been stoped!.`,
         }}) + msg.channel.send({embed: {
           fields: [{
-            name: "Support Us",
-            value: `Support us by joining to our discord:\n[Click here](${invitelink})`
+            name: `Support ${bot.user.username}`,
+            value: `Support ${bot.user.username} by joining to our discord:\n[Click here](https://discordbots.org/bot/449277727514558464/vote)`
           }],
           timestamp: new Date()
           }});
@@ -327,7 +327,7 @@ async function handleVideo(video, msg, voiceChannel, playlist = false) {
       .addField("Uploaded by", `[${song.uploadedby}](${song.channelurl})`, true)
       .addField("Duration", `${song.durationm}min ${song.durations}sec`, true)
       .addField("Request by", `${song.request}`, true)
-      .addField("In Queue Position", `${++index.join('')}`, true)
+      .addField("In Queue Position", `${++index}`, true)
       .setFooter(`If this bot does not sound, you have to exit and log back in.`)
       .setTimestamp();
         serverQueue.songs.push(song);
