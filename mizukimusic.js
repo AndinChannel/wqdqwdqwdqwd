@@ -109,6 +109,7 @@ bot.on('message', async msg => { // eslint-disable-line
                 var video = await youtube.getVideo(url);
             } catch (error) {
                 try {
+                }
                     var videos = await youtube.searchVideos(searchString);
                 }
                 try {
