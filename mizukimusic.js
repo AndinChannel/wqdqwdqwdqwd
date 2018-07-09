@@ -109,36 +109,8 @@ bot.on('message', async msg => { // eslint-disable-line
                 var video = await youtube.getVideo(url);
             } catch (error) {
                 try {
-                    var videos = await youtube.searchVideos(searchString, 10);
-                    let index = 0;
-                    var selection = await msg.channel.send({
-            embed: {
-                color: randomhexcolor,
-                description: `__**🔽 Please select your song below:**__
-${videos.map(video2 => `**${++index} -** ${video2.title}`).join('\n')}
-**Type in the number listed above, you have a 15 seconds before it get automatically canceled!**`
-            }
-        })
- 
-                    try {
-                        var response = await msg.channel.awaitMessages(msg2 => msg2.content > 0 && msg2.content < 11, {
-                            maxMatches: 1,
-                            time: 15000,
-                            errors: ['time']
-                        });
-                                                selection.delete();
-                    } catch (err) {
-                        console.error(err);
-                        return msg.channel.send({
-            embed: {
-                color: randomhexcolor,
-                description: `No or invalid value entered, cancelling video selection.`
-            }
-        })
-                        selection.delete();
-                    }
-                    const videoIndex = parseInt(response.first().content)
-                    var video = await youtube.getVideoByID(videos[videoIndex - 1].id);
+                    var videos = await youtube.searchVideos(searchString);
+                    var video = await youtube.getVideoByID(videos.id);
                 } catch (err) {
                     console.error(err)
                     return msg.channel.send({
