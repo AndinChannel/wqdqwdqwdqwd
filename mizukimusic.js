@@ -137,7 +137,7 @@ ${videos.map(video2 => `**${++index} -** ${video2.title}`).join('\n')}
         })
                         selection.delete();
                     }
-                    const videoIndex = (User) => parseInt(response.first().content) && user.id === message.author.id;
+                    const videoIndex = parseInt(response.first().content)
                     var video = await youtube.getVideoByID(videos[videoIndex - 1].id);
                 } catch (err) {
                     console.error(err)
