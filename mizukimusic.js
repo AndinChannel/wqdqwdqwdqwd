@@ -318,7 +318,7 @@ async function handleVideo(video, msg, voiceChannel, playlist = false) {
         });
         }
     } else {
-      let index = 1;
+      queue : 0;
       var queueembed = new Discord.RichEmbed()
       .setAuthor(`Added to queue`, `https://images-ext-1.discordapp.net/external/YwuJ9J-4k1AUUv7bj8OMqVQNz1XrJncu4j8q-o7Cw5M/http/icons.iconarchive.com/icons/dakirby309/simply-styled/256/YouTube-icon.png`)
       .setThumbnail(`https://i.ytimg.com/vi/${song.id}/default.jpg?width=80&height=60`)
@@ -327,7 +327,7 @@ async function handleVideo(video, msg, voiceChannel, playlist = false) {
       .addField("Uploaded by", `[${song.uploadedby}](${song.channelurl})`, true)
       .addField("Duration", `${song.durationm}min ${song.durations}sec`, true)
       .addField("Request by", `${song.request}`, true)
-      .addField("In Queue Position", `${serverQueue.index++}`, true)
+      .addField("In Queue Position", `${serverQueue.queue++}`, true)
       .setFooter(`If this bot does not sound, you have to exit and log back in.`)
       .setTimestamp();
         serverQueue.songs.push(song);
