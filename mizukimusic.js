@@ -318,7 +318,7 @@ async function handleVideo(video, msg, voiceChannel, playlist = false) {
         });
         }
     } else {
-      queue : 0;
+      queue = 0;
       var queueembed = new Discord.RichEmbed()
       .setAuthor(`Added to queue`, `https://images-ext-1.discordapp.net/external/YwuJ9J-4k1AUUv7bj8OMqVQNz1XrJncu4j8q-o7Cw5M/http/icons.iconarchive.com/icons/dakirby309/simply-styled/256/YouTube-icon.png`)
       .setThumbnail(`https://i.ytimg.com/vi/${song.id}/default.jpg?width=80&height=60`)
